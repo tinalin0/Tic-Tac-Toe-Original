@@ -269,7 +269,7 @@ function drawO(row, column) {
 
 function performResetAfterDelay() {
     // 1000 ms delay
-    window.setTimeout(resetEverything, 1000)
+    window.setTimeout(resetEverything, 500)
   
 }
   
@@ -294,8 +294,8 @@ function checkMousePosition(event) {
     mouseX = event.clientX - cnvRect.left;
     mouseY = event.clientY - cnvRect.top;
     
-    if (mouseX <= 600) {
-        if (mouseY <= 600) {
+    if (mouseX <= 600 && mouseX >= 0) {
+        if (mouseY <= 600 && mouseY >= 0) {
             // Variables
             let i = 0;
             let t = 0;
