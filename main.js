@@ -5,8 +5,9 @@ cnv.width = 600;
 cnv.height = 600;
 
 // Variables
-let wins = 0;
-let losses = 0;
+let player1Wins = 0;
+let player2Wins = 0;
+let draws = 0;
 
 let player = 1;
 
@@ -18,8 +19,9 @@ let array = [
 
 let mouseX, mouseY;
 
-let winNumEl = document.getElementById("win-num");
-let lossNumEl = document.getElementById("loss-num");
+let p1NumEl = document.getElementById("p1-num");
+let p2NumEl = document.getElementById("p2-num");
+let drawEl = document.getElementById("draw-num")
 
 // OnLoad
 window.addEventListener("load", drawBackground);
@@ -28,7 +30,10 @@ function drawAll() {
     // Draw Background
     drawBackground();
     checkArray();
-    checkWin();
+    let returnNum = checkWin();
+    if (returnNum === 0) {
+        return;
+    }
     checkSquareFill();
 }
 
@@ -102,12 +107,12 @@ function checkWin() {
                 ctx.stroke();
             }
             if (array[i][0] === 1) {
-                wins++;
-                winNumEl.innerHTML = wins;
+                player1Wins++;
+                p1NumEl.innerHTML = player1Wins;
                 performResetAfterDelay();
             } else if (array[i][0] === -1) {
-                losses++;
-                lossNumEl.innerHTML = losses;
+                player2Wins++;
+                p2NumEl.innerHTML = player2Wins;
                 performResetAfterDelay();
             }
         }
@@ -138,13 +143,13 @@ function checkWin() {
                 ctx.lineTo(500, 575);
                 ctx.stroke();
             }
-            if (array[i][0] === 1) {
-                wins++;
-                winNumEl.innerHTML = wins;
+            if (array[0][i] === 1) {
+                player1Wins++;
+                p1NumEl.innerHTML = player1Wins;
                 performResetAfterDelay();
-            } else if (array[i][0] === -1) {
-                losses++;
-                lossNumEl.innerHTML = losses;
+            } else if (array[0][i] === -1) {
+                player2Wins++;
+                p2NumEl.innerHTML = player2Wins;
                 performResetAfterDelay();
             }
         }
@@ -159,12 +164,12 @@ function checkWin() {
         ctx.lineTo(575, 575);
         ctx.stroke();
         if (array[0][0] === 1) {
-            wins++;
-            winNumEl.innerHTML = wins;
+            player1Wins++;
+            p1NumEl.innerHTML = player1Wins;
             performResetAfterDelay();
         } else if (array[0][0] === -1) {
-            losses++;
-            lossNumEl.innerHTML = losses;
+            player2Wins++;
+            p2NumEl.innerHTML = player2Wins;
             performResetAfterDelay();
         }
     } else if (array[0][2] === array[1][1] && array[0][2] === array[2][0] && array[0][2] !== 0) {
@@ -175,19 +180,31 @@ function checkWin() {
         ctx.lineTo(25, 575);
         ctx.stroke();
         if (array[0][2] === 1) {
-            wins++;
-            winNumEl.innerHTML = wins;
+            player1Wins++;
+            p1NumEl.innerHTML = player1Wins;
             performResetAfterDelay();
         } else if (array[0][2] === -1) {
-            losses++;
-            lossNumEl.innerHTML = losses;
+            player2Wins++;
+            p2NumEl.innerHTML = player2Wins;
             performResetAfterDelay();
         }
     }
 }
 
 function checkSquareFill() {
-    
+    let squaresFilled = 0;
+    for(let i = 0; i < array.length; i++) {
+        for (let t = 0; t < array[i].length; t++) {
+            if (array[i][t] !== 0) {
+                squaresFilled++;
+            }
+        }
+    }
+    if (squaresFilled === 9) {
+        draws++;
+        drawEl.innerHTML = draws;
+        performResetAfterDelay();
+    }
 }
 
 function drawX(row, column) {
@@ -263,6 +280,8 @@ function resetEverything() {
         [0, 0, 0]
     ];
     drawBackground();
+    player = 1;
+    return 0;
 }
 
 // Event Listener
@@ -303,19 +322,13 @@ function checkMousePosition(event) {
             if (player === 1) {
                 if (array[i][t] === 0) {
                     array[i][t] = 1;
+                    player = 0;
                 }
             } else if (player === 0) {
                 if (array[i][t] === 0) {
                     array[i][t] = -1;
+                    player = 1;
                 }
-            
-            }
-
-            // Change players
-            if (player === 1) {
-                player = 0;
-            } else {
-                player = 1;
             }
 
             console.log(mouseX);
