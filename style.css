@@ -1,0 +1,12 @@
+html {
+    text-align: center;
+  }
+  
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  canvas {
+    border: 2px solid midnightblue;
+    margin: 20px auto;
+  }
