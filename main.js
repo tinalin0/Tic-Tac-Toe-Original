@@ -330,11 +330,6 @@ function checkMousePosition(event) {
                     player = 1;
                 }
             }
-
-            console.log(mouseX);
-            console.log(mouseY);
-            console.log(array);
-            console.log(player);
             // Draw All
             drawAll();
         }
